@@ -1,11 +1,25 @@
 import express from "express";
 import mongoose from "mongoose";
-import userRouter from "./routes/userRoute.js";
+import dotenv from "dotenv";
+import userRouter from "./routes/userRoute.js"; //userRouter = Router what ever is being exported from userRouter Is imported in userRouter can also write Router in pace of userRouter that will also work fine
 const app = express();
 app.use(express.json());
-mongoose.connect("mongodb://localhost:27017/lpu").then(() => {
-  app.listen(8080, () => {
-    console.log("Server started");
+dotenv.config();
+const dbuser = encodeURIComponent(process.env.DBUSER);
+const dbpass = encodeURIComponent(process.env.DBPASS);
+mongoose
+  .connect(
+    `mongodb+srv://${dbuser}:${dbpass}@cluster0.p3ndcui.mongodb.net/cafe?retryWrites=true&w=majority&appName=Cluster0`
+  )
+
+  .then(() => {
+    console.log("✅ MongoDB connected");
+    app.listen(8080, () => {
+      console.log("🚀 Server started on port 8080");
+    });
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
   });
-});
+
 app.use("/api/users", userRouter);

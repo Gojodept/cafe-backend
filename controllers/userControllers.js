@@ -1,6 +1,10 @@
- import userModel from "../models/userModel.js";
- import express from "express";
- const register = async (req, res) => {
+import userModel from "../models/userModel.js";
+import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+const SECRET = "something"; // Also needed
+
+const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const hashedpwd = await bcrypt.hash(password, 10);
@@ -14,7 +18,7 @@
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Something went wrong" });
-  };
+  }
 };
 const login = async (req, res) => {
   try {
@@ -41,12 +45,12 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
-const showUsers =async (req, res) => {
+const showUsers = async (req, res) => {
   try {
     const result = await userModel.find();
     res.status(200).json(result);
   } catch (err) {}
-}
+};
 const updateUser = async (req, res) => {
   try {
     const id = req.params.id;
@@ -58,7 +62,7 @@ const updateUser = async (req, res) => {
     res.status(400).json({ message: "Something went wrong" });
   }
 };
-const deleteUser= async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
     const result = await userModel.findByIdAndDelete(id);
@@ -67,7 +71,7 @@ const deleteUser= async (req, res) => {
     console.log(err);
     res.status(400).json({ message: "Something went wrong" });
   }
-}
+};
 const profile = async (req, res) => {
   try {
     const id = req.params.id;
@@ -77,5 +81,5 @@ const profile = async (req, res) => {
     console.log(err);
     res.status(400).json({ message: "Something went wrong" });
   }
-}
-export {register,login,showUsers,updateUser,deleteUser,profile};
+};
+export { register, login, showUsers, updateUser, deleteUser, profile };
