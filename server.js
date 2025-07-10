@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRouter from "./routes/userRoute.js"; //userRouter = Router what ever is being exported from userRouter Is imported in userRouter can also write Router in pace of userRouter that will also work fine
 const app = express();
 app.use(express.json());
+app.use(cors());
 dotenv.config();
 const dbuser = encodeURIComponent(process.env.DBUSER);
 const dbpass = encodeURIComponent(process.env.DBPASS);
