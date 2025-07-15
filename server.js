@@ -35,8 +35,8 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-const dbuser = process.env.DBUSER;
-const dbpass = process.env.DBPASS;
+const dbuser = encodeURIComponent(process.env.DBUSER);
+const dbpass = encodeURIComponent(process.env.DBPASS);
 
 // mongoose.connect(`mongodb://localhost:27017/merncafe`).then(() => {
 //   app.listen(8080, () => {
@@ -44,9 +44,8 @@ const dbpass = process.env.DBPASS;
 //   });
 // });
 
-mongoose
-  .connect(
-    `mongodb+srv://${dbuser}:${dbpass}@cluster0.qjxhv.mongodb.net/merncafe?retryWrites=true&w=majority&appName=Cluster0`
+  mongoose.connect(
+    `mongodb+srv://${dbuser}:${dbpass}@cluster0.p3ndcui.mongodb.net/cafe?retryWrites=true&w=majority&appName=Cluster0`
   )
   .then(() => {
     app.listen(8080, () => {
