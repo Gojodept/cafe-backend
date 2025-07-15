@@ -289,6 +289,37 @@ const showUsers = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+// const showUsers = async (req, res) => {
+//   try {
+//     const { page = 1, limit = 3, search = "" } = req.query;
+//     const cleanSearch = search.trim();
+//     const skip = (parseInt(page) - 1) * parseInt(limit);
+
+//     const searchQuery = cleanSearch
+//       ? {
+//           $or: [
+//             { firstName: { $regex: cleanSearch, $options: "i" } },
+//             { lastName: { $regex: cleanSearch, $options: "i" } },
+//           ],
+//         }
+//       : {};
+
+//     const count = await userModel.countDocuments(searchQuery);
+//     const total = Math.ceil(count / limit);
+
+//     const users = await userModel
+//       .find(searchQuery)
+//       .skip(skip)
+//       .limit(parseInt(limit))
+//       .sort({ updatedAt: -1 });
+
+//     res.status(200).json({ users, total });
+//   } catch (err) {
+//     console.error("🔥 showUsers error:", err.message);
+//     res.status(500).json({ message: "Something went wrong" });
+//   }
+// };
+
 
 export {
   register,
