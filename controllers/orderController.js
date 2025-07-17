@@ -26,10 +26,13 @@ const showAllOrders = async (req, res) => {
   try {
     const { status = "", page = 1, limit = 5 } = req.query;
     const skip = (page - 1) * limit;
-    const count = await orderModel.countDocuments();
+    const count = await orderModel.countDocuments({ status: { $regex: status } });
     const total = Math.ceil(count / limit);
-    const result = await orderModel.find({ status: { $regex: status } });
-    res.status(200).json({ orders:result, total });
+    const result = await orderModel
+      .find({ status: { $regex: status } })
+      .skip(skip)
+      .limit(limit);
+    res.status(200).json({ orders: result, total });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Something went wrong" });
